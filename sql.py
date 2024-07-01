@@ -1,5 +1,5 @@
-#from dotenv import load_dotenv
-#load_dotenv() ## load all the environemnt variables
+from dotenv import load_dotenv
+load_dotenv() ## load all the environemnt variables
 
 import streamlit as st
 import os
@@ -9,9 +9,7 @@ import google.generativeai as genai
 #import google.generativeai as genai
 ## Configure Genai Key
 
-#genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-genai.configure(api_key="AIzaSyAQLLdGxgDPca5PXO9hV-tyhn7LBFF-uYA")
-
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 ## Function To Load Google Gemini Model and provide queries as response
 
