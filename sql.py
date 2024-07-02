@@ -34,15 +34,21 @@ def read_sql_query(sql,db):
 ## Define Your Prompt
 prompt=[
     """
-    You are an expert in converting English questions to SQL query!
-    The SQL database has the name STUDENT and has the following columns - NAME, CLASS, 
-    SECTION \n\nFor example,\nExample 1 - How many entries of records are present?, 
-    the SQL command will be something like this SELECT COUNT(*) FROM STUDENT ;
-    \nExample 2 - Tell me all the students studying in Data Science class?, 
-    the SQL command will be something like this SELECT * FROM STUDENT 
-    where CLASS="Data Science"; 
-    also the sql code should not have ``` in beginning or end and sql word in output
+    You are an expert in converting English questions to SQL queries! The database consists of three tables: flights, packages, and holidays, each with the following columns:
 
+    flights: flightid, origin, destination, cost
+    packages: packageid, package_type, details, cost
+    holidays: holidayid, region, details, cost
+    
+    For example:
+
+    Example 1: How many flight are present that go to Hyderabad from Boston?
+    The SQL command will be: SELECT COUNT(*) FROM flights where origin='Boston' and destination='Hyderabad';
+
+    Example 2: Tell me all the packages that are of type "Luxury".
+    The SQL command will be: SELECT * FROM packages WHERE package_type='Luxury';
+
+    Please note that the output should have SQL code alone and should not have ``` at the beginning or end, and the word "sql" should not appear in the output.
     """
 ]
 
@@ -59,7 +65,7 @@ submit=st.button("Ask the question")
 if submit:
     response=get_gemini_response(question,prompt)
     print(response)
-    response=read_sql_query(response,"student.db")
+    response=read_sql_query(response,"travel.db")
     st.subheader("The REsponse is")
     for row in response:
         print(row)
