@@ -36,26 +36,29 @@ prompt=[
     """
     You are an expert in converting English questions to SQL queries! The database consists of three tables: flights, packages, and holidays, each with the following columns:
 
-    flights: flightid, origin, destination, cost
-    packages: packageid, package_type, details, cost
-    holidays: holidayid, region, details, cost
+    flights: flight_id, origin, destination, price
+    packages: package_id, package_type, place, details, price
+    hotels: hotel_id, hotel_name, place, details, price
     
     For example:
 
     Example 1: How many flight are present that go to Hyderabad from Boston?
     The SQL command will be: SELECT COUNT(*) FROM flights where origin='Boston' and destination='Hyderabad';
 
-    Example 2: Tell me all the packages that are of type "Luxury".
-    The SQL command will be: SELECT * FROM packages WHERE package_type='Luxury';
+    Example 2: Give me all Family packages available.
+    The SQL command will be: SELECT * FROM packages WHERE package_type='Family';
 
+    Example 3: Give me all hotels available in hyderabad that cost less than 10000.
+    The SQL command will be: SELECT * FROM hotels WHERE place='Hyderabad' and price < 10000;
+    
     Please note that the output should have SQL code alone and should not have ``` at the beginning or end, and the word "sql" should not appear in the output.
     """
 ]
 
 ## Streamlit App
 
-st.set_page_config(page_title="I can Retrieve Any SQL query")
-st.header("Gemini App To Retrieve SQL Data")
+st.set_page_config(page_title="Travlr ChatBot")
+st.header("I'm here to assist all your travel queries")
 
 question=st.text_input("Input: ",key="input")
 

@@ -10,36 +10,42 @@ cursor=connection.cursor()
 ## create the table
 tables_flights="""
 CREATE TABLE flights (
-    flightid PRIMARY KEY,
+    flight_id PRIMARY KEY,
     origin TEXT,
     destination TEXT,
-    cost DECIMAL
+    price DECIMAL
 );
 """
 tables_packages="""
 CREATE TABLE packages (
-    packageid PRIMARY KEY,
+    package_id PRIMARY KEY,
     package_type TEXT,
+    place TEXT,
     details TEXT,
-    cost DECIMAL
+    price DECIMAL
  );
 """
-tables_holidays="""
-CREATE TABLE holidays (
-    holidayid PRIMARY KEY,
-    region TEXT,
+
+
+tables_hotels="""
+CREATE TABLE hotels (
+    hotel_id PRIMARY KEY,
+    hotel_name TEXT,
+    place TEXT,
     details TEXT,
-    cost DECIMAL
+    price DECIMAL
  );
 """
+
+
 cursor.execute(tables_flights)
 cursor.execute(tables_packages)
-cursor.execute(tables_holidays)
+cursor.execute(tables_hotels)
 ## Insert Some more records
 
 cursor.execute('''
                INSERT INTO 
-               flights (flightid, origin, destination, cost) 
+               flights (flight_id, origin, destination, price) 
                VALUES
                (1, 'Singapore', 'London', 1200.00),
                (2, 'New York', 'Tokyo', 1500.00),
@@ -51,26 +57,26 @@ cursor.execute('''
 
 cursor.execute('''
                INSERT INTO 
-               packages (packageid, package_type, details, cost) 
+               packages (package_id, package_type, place, details, price) 
                VALUES
-               (1, 'Economy', 'Includes flight and 3-star hotel', 1500.00),
-               (2, 'Luxury', 'Includes flight, 5-star hotel, all meals, and private tours', 5000.00),
-               (3, 'Adventure', 'Includes flight, camping gear, and guided adventure activities', 3000.00),
-               (4, 'Standard', 'Includes flight, hotel, and breakfast', 2000.00),
-               (5, 'Deluxe', 'Includes flight, 5-star hotel, breakfast, and guided tours', 3500.00);  
+               (1, 'Nature','Kerala', 'Includes flight and 3-star hotel', 1500.00),
+               (2, 'Romantic','Rome', 'Includes flight, 5-star hotel, all meals, and private tours', 5000.00),
+               (3, 'Adventure','Grand Canyon', 'Includes flight, camping gear, and guided adventure activities', 3000.00),
+               (4, 'Family','Paris', 'Includes flight, hotel, and breakfast', 2000.00),
+               (5, 'Family', 'Italy', 'Includes flight, 5-star hotel, breakfast, and guided tours', 3500.00);  
                ''')
 
 
 cursor.execute('''
                INSERT INTO 
-               holidays (holidayid, region, details, cost) 
+               hotels (hotel_id, hotel_name, place, details, price) 
                VALUES
-               (1, 'Asia', 'Cultural tour including visits to Tokyo, Seoul, and Beijing', 4000.00),
-               (2, 'Africa', 'Safari holiday package including visits to Kenya, Tanzania, and South Africa', 6000.00),
-               (3, 'South America', 'Exploration tour including visits to Brazil, Argentina, and Peru', 4500.00),
-               (4, 'Europe', 'Family holiday package including visits to Paris, Rome, and Barcelona', 5000.00);
+               (1, 'Cassandra','Hyderabad', '3-star hotel', 1500.00),
+               (2, 'Rotesri','Rome', '3-star hotel', 5000.00),
+               (3, 'Advak','Boston', '3-star hotel', 3000.00),
+               (4, 'Triaci','Paris', '3-star hotel', 2000.00),
+               (5, 'Family Inn', 'Italy', '3-star hotel', 3500.00);  
                ''')
-
 
 
 #cursor.execute('''Insert Into STUDENT values('Sudhanshu','Data Science','B',100)''')
@@ -78,7 +84,7 @@ cursor.execute('''
 #cursor.execute('''Insert Into STUDENT values('Vikash','DEVOPS','A',50)''')
 #cursor.execute('''Insert Into STUDENT values('Dipesh','DEVOPS','A',35)''')
 
-## Disspaly ALl the records
+## Display ALl the records
 
 '''print("The inserted records are")
 data=cursor.execute(''Select * from STUDENT'')
