@@ -36,11 +36,19 @@ CREATE TABLE hotels (
     price DECIMAL
  );
 """
+tables_offers="""
+CREATE TABLE offers (
+    offer_id PRIMARY KEY,
+    offer_on TEXT,
+    details TEXT
+ );
+"""
 
 
 cursor.execute(tables_flights)
 cursor.execute(tables_packages)
 cursor.execute(tables_hotels)
+cursor.execute(tables_offers)
 ## Insert Some more records
 
 cursor.execute('''
@@ -76,6 +84,18 @@ cursor.execute('''
                (3, 'Advak','Boston', '3-star hotel', 3000.00),
                (4, 'Triaci','Paris', '3-star hotel', 2000.00),
                (5, 'Family Inn', 'Italy', '3-star hotel', 3500.00);  
+               ''')
+
+
+cursor.execute('''
+               INSERT INTO 
+               offers (offer_id, offer_on, details) 
+               VALUES
+               (1, 'Hotels','10% off upto $250 on bookings made over $2000'),
+               (2, 'Hotels','Flat $150 for Bookings made using Chase Credit Card'),
+               (3, 'Flights','Get 20% off on your return ticket for roundtrip bookings'),
+               (4, 'Flights','Get free lounge access with southern airlines'),
+               (5, 'Packages','10% off upto $1000 on bookings made over $5000'); 
                ''')
 
 

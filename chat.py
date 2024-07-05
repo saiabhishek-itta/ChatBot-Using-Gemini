@@ -1,4 +1,8 @@
+from intent1 import classify_question
+
 from dotenv import load_dotenv
+
+
 load_dotenv() ## load all the environemnt variables
 
 import streamlit as st
@@ -37,8 +41,16 @@ prompt=[
     You are an expert in converting English questions to SQL queries! The database consists of three tables: flights, packages, and holidays, each with the following columns:
 
     flights: flight_id, origin, destination, price
+    flights table sample data: (1, 'Singapore', 'London', 1200.00)
+    
     packages: package_id, package_type, place, details, price
+    packages table sample data: (1, 'Nature','Kerala', 'Includes flight and 3-star hotel', 1500.00)
+    
     hotels: hotel_id, hotel_name, place, details, price
+    hotels table sample data: (1, 'Cassandra','Hyderabad', '3-star hotel', 1500.00)
+    
+    offers: offer_id, offer_on, details
+    offers table sample data: (1, 'Hotels','10% off upto $250 on bookings made over $2000')
     
     For example:
 
@@ -67,9 +79,13 @@ submit=st.button("Ask the question")
 # if submit is clicked
 if submit:
     response=get_gemini_response(question,prompt)
-    print(response)
+    print("Generated SQL Query: ",response)
     response=read_sql_query(response,"travel.db")
-    st.subheader("The REsponse is")
-    for row in response:
-        print(row)
-        st.header(row)
+    if len(response) == 0:
+        print("No data returned from the query.")
+        st.subheader("I could not get any details for your query, please try again...")
+    else:    
+        st.subheader("The Response is")
+        for row in response:
+            print(row)
+            st.header(row)
