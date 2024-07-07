@@ -8,3 +8,6 @@ chromadb
 faiss-cpu
 pdf2image
 sqlite3
+numpy==1.26.4
+scipy==1.12.0
+scikit-learn==1.2.2
