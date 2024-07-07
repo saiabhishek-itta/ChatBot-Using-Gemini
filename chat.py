@@ -1,4 +1,4 @@
-from intent1 import classify_question
+from intent_classification import classify_question
 
 from dotenv import load_dotenv
 
@@ -36,7 +36,7 @@ def read_sql_query(sql,db):
     return rows
 
 ## Define Your Prompt
-prompt=[
+dbprompt=[
     """
     You are an expert in converting English questions to SQL queries! The database consists of three tables: flights, packages, and holidays, each with the following columns:
 
@@ -67,6 +67,15 @@ prompt=[
     """
 ]
 
+gnprompt=[
+    """
+    You are an expert in assisting users with their travel queries, answer these general questions from users as a travel agent.
+    """
+]
+
+
+
+
 ## Streamlit App
 
 st.set_page_config(page_title="Travlr ChatBot")
@@ -78,14 +87,21 @@ submit=st.button("Ask the question")
 
 # if submit is clicked
 if submit:
-    response=get_gemini_response(question,prompt)
-    print("Generated SQL Query: ",response)
-    response=read_sql_query(response,"travel.db")
-    if len(response) == 0:
-        print("No data returned from the query.")
-        st.subheader("I could not get any details for your query, please try again...")
-    else:    
-        st.subheader("The Response is")
-        for row in response:
-            print(row)
-            st.header(row)
+    category = str(classify_question(question))
+    print(question," --- Categorized Model : ",category)
+
+    if(category=="database"):
+        response=get_gemini_response(question,dbprompt)
+        print("Generated SQL Query: ",response)
+        response=read_sql_query(response,"travel.db")
+        if len(response) == 0:
+            print("No data returned from the query.")
+            st.subheader("I could not get any details for your query, please try again...")
+        else:    
+            for row in response:
+                print(row)
+                st.header(row)
+    else:
+        response=get_gemini_response(question,gnprompt)
+        print("General Question Answer: ",response)
+        st.subheader(response)
