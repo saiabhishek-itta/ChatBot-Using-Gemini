@@ -135,7 +135,7 @@ for question in data_general:
 
 # Display the first few rows of the dataset
 df = pd.DataFrame(data)
-print(df.head())
+#print(df.head())
 
 
 
@@ -200,6 +200,9 @@ print('Accuracy:', accuracy_score(y_test, y_pred))
 
 
 
+
+
+#To test
 def classify_question(question):
     cleaned_question = preprocess_text(question)
     question_tfidf = vectorizer.transform([cleaned_question])
