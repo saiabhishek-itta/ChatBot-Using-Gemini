@@ -1,7 +1,5 @@
-from intent_classification import classify_question
-
 from dotenv import load_dotenv
-
+from intent_classification import classify_question
 
 load_dotenv() ## load all the environemnt variables
 
@@ -10,8 +8,7 @@ import os
 import sqlite3
 
 import google.generativeai as genai
-#import google.generativeai as genai
-## Configure Genai Key
+
 
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
@@ -74,19 +71,15 @@ gnprompt=[
 ]
 
 
+datatosenprompt[
+    """
+    
+    """
+]
 
 
-## Streamlit App
 
-st.set_page_config(page_title="Travlr ChatBot")
-st.header("I'm here to assist all your travel queries")
-
-question=st.text_input("Input: ",key="input")
-
-submit=st.button("Ask the question")
-
-# if submit is clicked
-if submit:
+def askquestion(question):
     category = str(classify_question(question))
     print(question," --- Categorized Model : ",category)
 
@@ -96,12 +89,10 @@ if submit:
         response=read_sql_query(response,"travel.db")
         if len(response) == 0:
             print("No data returned from the query.")
-            st.subheader("I could not get any details for your query, please try again...")
+            return"I could not get any details for your query, please try again..."
         else:    
-            for row in response:
-                print(row)
-                st.header(row)
+            return response
     else:
         response=get_gemini_response(question,gnprompt)
         print("General Question Answer: ",response)
-        st.subheader(response)
+        return response
