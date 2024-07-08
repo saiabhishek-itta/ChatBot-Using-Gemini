@@ -45,8 +45,8 @@ dbprompt=[
     """
     You are an expert in converting English questions to SQL queries. The database consists of four tables: flights, packages, hotels and offers, each with the following columns:
 
-    flights: flight_id, origin, destination, price
-    flights table sample data: (1, 'Singapore', 'London', 1200.00)
+    flights: flight_id, flight_operator, origin, destination, price
+    flights table sample data: (1, 'Lufthansa', 'Singapore', 'London', 1200.00)
     
     packages: package_id, package_type, place, details, price
     packages table sample data: (1, 'Nature','Kerala', 'Includes flight and 3-star hotel', 1500.00)
@@ -84,7 +84,7 @@ datatosenprompt=[
     You are an expert in converting data from SQL database questions to natural language. The database consists of four tables: flights, packages, hotels and offers each with the following columns:
 
     flights: flight_id, origin, destination, price
-    flights table sample data: (1, 'Singapore', 'London', 1200.00)
+    flights table sample data: (1, 'Lufthansa', 'Singapore', 'London', 1200.00)
     
     packages: package_id, package_type, place, details, price
     packages table sample data: (1, 'Nature','Kerala', 'Includes flight and 3-star hotel', 1500.00)

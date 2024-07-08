@@ -11,6 +11,7 @@ cursor=connection.cursor()
 tables_flights="""
 CREATE TABLE flights (
     flight_id PRIMARY KEY,
+    flight_operator TEXT,
     origin TEXT,
     destination TEXT,
     price DECIMAL
@@ -25,7 +26,6 @@ CREATE TABLE packages (
     price DECIMAL
  );
 """
-
 
 tables_hotels="""
 CREATE TABLE hotels (
@@ -53,13 +53,13 @@ cursor.execute(tables_offers)
 
 cursor.execute('''
                INSERT INTO 
-               flights (flight_id, origin, destination, price) 
+               flights (flight_id, flight_operator, origin, destination, price) 
                VALUES
-               (1, 'Singapore', 'London', 1200.00),
-               (2, 'New York', 'Tokyo', 1500.00),
-               (3, 'Los Angeles', 'Sydney', 1800.00),
-               (4, 'Paris', 'Dubai', 900.00),
-               (5, 'Berlin', 'Cape Town', 1300.00);
+               (1, 'Lufthansa', 'Singapore', 'London', 1200.00),
+               (2, 'American Airlines', 'New York', 'Tokyo', 1500.00),
+               (3, 'Emirites', 'Los Angeles', 'Sydney', 1800.00),
+               (4, 'Ethihad', 'Paris', 'Dubai', 900.00),
+               (5, 'Virgin Atlantic', 'Berlin', 'Cape Town', 1300.00);
                ''')
 
 
