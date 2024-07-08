@@ -60,6 +60,7 @@ data_database = {
 }
 
 data_general = {
+    "What is famous in hyderabad?",
     "What is the currency in France?",#2
     "What is the weather like in Paris?",#4
     "What are the popular tourist spots in Spain?",#7

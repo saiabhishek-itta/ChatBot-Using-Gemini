@@ -19,12 +19,20 @@ def get_gemini_response(question,prompt):
     response=model.generate_content([prompt[0],question])
     return response.parts[0].text
 
+def get_gemini_dbtosent(question,sqlquery,dbdata,datatosenprompt):
+    model=genai.GenerativeModel('gemini-pro')
+    response=model.generate_content([question,sqlquery,dbdata,datatosenprompt[0]])
+    return response.parts[0].text
+
 ## Fucntion To retrieve query from the database
 
 def read_sql_query(sql,db):
     conn=sqlite3.connect(db)
     cur=conn.cursor()
-    cur.execute(sql)
+    try:
+        cur.execute(sql)
+    except:
+        return ""
     rows=cur.fetchall()
     conn.commit()
     conn.close()
@@ -35,7 +43,7 @@ def read_sql_query(sql,db):
 ## Define Your Prompt
 dbprompt=[
     """
-    You are an expert in converting English questions to SQL queries! The database consists of three tables: flights, packages, and holidays, each with the following columns:
+    You are an expert in converting English questions to SQL queries. The database consists of four tables: flights, packages, hotels and offers, each with the following columns:
 
     flights: flight_id, origin, destination, price
     flights table sample data: (1, 'Singapore', 'London', 1200.00)
@@ -57,8 +65,8 @@ dbprompt=[
     Example 2: Give me all Family packages available.
     The SQL command will be: SELECT * FROM packages WHERE package_type='Family';
 
-    Example 3: Give me all hotels available in hyderabad that cost less than 10000.
-    The SQL command will be: SELECT * FROM hotels WHERE place='Hyderabad' and price < 10000;
+    Example 3: What are prices of hotels in hyderabad.
+    The SQL command will be: SELECT * FROM hotels WHERE place='Hyderabad';
     
     Please note that the output should have SQL code alone and should not have ``` at the beginning or end, and the word "sql" should not appear in the output.
     """
@@ -71,9 +79,23 @@ gnprompt=[
 ]
 
 
-datatosenprompt[
+datatosenprompt=[
     """
+    You are an expert in converting data from SQL database questions to natural language. The database consists of four tables: flights, packages, hotels and offers each with the following columns:
+
+    flights: flight_id, origin, destination, price
+    flights table sample data: (1, 'Singapore', 'London', 1200.00)
     
+    packages: package_id, package_type, place, details, price
+    packages table sample data: (1, 'Nature','Kerala', 'Includes flight and 3-star hotel', 1500.00)
+    
+    hotels: hotel_id, hotel_name, place, details, price
+    hotels table sample data: (1, 'Cassandra','Hyderabad', '3-star hotel', 1500.00)
+    
+    offers: offer_id, offer_on, details
+    offers table sample data: (1, 'Hotels','10% off upto $250 on bookings made over $2000')
+
+    given a question, sql query and generated table data, you have to convert sql table data into natural language and your respose should only include this answer.
     """
 ]
 
@@ -84,13 +106,14 @@ def askquestion(question):
     print(question," --- Categorized Model : ",category)
 
     if(category=="database"):
-        response=get_gemini_response(question,dbprompt)
-        print("Generated SQL Query: ",response)
-        response=read_sql_query(response,"travel.db")
-        if len(response) == 0:
-            print("No data returned from the query.")
+        sqlquery=get_gemini_response(question,dbprompt)
+        print("Generated SQL Query: ",sqlquery)
+        dbdata=read_sql_query(sqlquery,"travel.db")
+        if len(dbdata) == 0:
+            print("No data returned from the database using generated query.")
             return"I could not get any details for your query, please try again..."
-        else:    
+        else:  
+            response=get_gemini_dbtosent(question,sqlquery,str(dbdata),datatosenprompt)
             return response
     else:
         response=get_gemini_response(question,gnprompt)
