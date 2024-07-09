@@ -59,7 +59,8 @@ cursor.execute('''
                (2, 'American Airlines', 'New York', 'Tokyo', 1500.00),
                (3, 'Emirites', 'Los Angeles', 'Sydney', 1800.00),
                (4, 'Ethihad', 'Paris', 'Dubai', 900.00),
-               (5, 'Virgin Atlantic', 'Berlin', 'Cape Town', 1300.00);
+               (5, 'Virgin Atlantic', 'Berlin', 'Cape Town', 1300.00),
+               (6, 'Ethihad', 'Dubai', 'Paris', 1900.00);
                ''')
 
 

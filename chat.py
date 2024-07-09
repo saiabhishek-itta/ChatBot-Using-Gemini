@@ -107,8 +107,15 @@ def askquestion(question):
 
     if(category=="database"):
         sqlquery=get_gemini_response(question,dbprompt)
-        print("Generated SQL Query: ",sqlquery)
-        dbdata=read_sql_query(sqlquery,"travel.db")
+        print("Generated SQL Queries: ",sqlquery)
+
+        queries = sqlquery.split(";")  # Split by semicolon (adjust delimiter if needed)
+        results = []
+        for query in queries:
+            result = read_sql_query(query.strip(), "travel.db")  # Remove leading/trailing whitespace
+            results.append(result)
+
+        dbdata=results
         if len(dbdata) == 0:
             print("No data returned from the database using generated query.")
             return"I could not get any details for your query, please try again..."
