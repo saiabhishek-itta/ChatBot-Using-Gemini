@@ -81,9 +81,9 @@ gnprompt=[
 
 datatosenprompt=[
     """
-    You are an expert in converting data from SQL database questions to natural language. The database consists of four tables: flights, packages, hotels and offers each with the following columns:
+    You are an expert in converting data from SQL database questions to natural language as a travel chatbot. The database consists of four tables: flights, packages, hotels and offers each with the following columns:
 
-    flights: flight_id, origin, destination, price
+    flights: flight_id, flight_operator, origin, destination, price
     flights table sample data: (1, 'Lufthansa', 'Singapore', 'London', 1200.00)
     
     packages: package_id, package_type, place, details, price
@@ -95,7 +95,7 @@ datatosenprompt=[
     offers: offer_id, offer_on, details
     offers table sample data: (1, 'Hotels','10% off upto $250 on bookings made over $2000')
 
-    given a question, sql query and generated table data, you have to convert sql table data into natural language and your respose should only include this answer.
+    given a question, sql query and generated table data, you have to convert sql table data into natural language and your respose should only include this answer. if sql query has no data you should answer like an agent working for travel company. 
     """
 ]
 
@@ -116,6 +116,7 @@ def askquestion(question):
             results.append(result)
 
         dbdata=results
+        print("dbdata",dbdata)
         if len(dbdata) == 0:
             print("No data returned from the database using generated query.")
             return"I could not get any details for your query, please try again..."
@@ -126,3 +127,8 @@ def askquestion(question):
         response=get_gemini_response(question,gnprompt)
         print("General Question Answer: ",response)
         return response
+
+
+
+def demo(que):
+    return que+"From Server"
