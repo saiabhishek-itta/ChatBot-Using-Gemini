@@ -50,7 +50,8 @@ dbprompt=[
     
     packages: package_id, package_type, place, details, price
     packages table sample data: (1, 'Nature','Kerala', 'Includes flight and 3-star hotel', 1500.00)
-    
+    package_type has 4 types Nature,Romantic,Adventure,Family
+
     hotels: hotel_id, hotel_name, place, details, price
     hotels table sample data: (1, 'Cassandra','Hyderabad', '3-star hotel', 1500.00)
     
@@ -74,7 +75,7 @@ dbprompt=[
 
 gnprompt=[
     """
-    You are an expert in assisting users with their travel queries, answer these general questions from users as a travel agent.
+    You are an expert in assisting users with their travel queries, answer these general questions from users as a travel agent. If the given question has to be answered by company database your response should be a string 'database' else give your complete response
     """
 ]
 
@@ -125,7 +126,28 @@ def askquestion(question):
             return response
     else:
         response=get_gemini_response(question,gnprompt)
-        print("General Question Answer: ",response)
+        print("General Question Answer: ",response) # response will database if specific data is required as per prompt
+        
+        if(response == 'database'):
+            sqlquery=get_gemini_response(question,dbprompt)
+            print("Generated SQL Queries: ",sqlquery)
+
+            queries = sqlquery.split(";")  # Split by semicolon (adjust delimiter if needed)
+            results = []
+            for query in queries:
+                result = read_sql_query(query.strip(), "travel.db")  # Remove leading/trailing whitespace
+                results.append(result)
+
+            dbdata=results
+            print("dbdata",dbdata)
+            if len(dbdata) == 0:
+                print("No data returned from the database using generated query.")
+                return"I could not get any details for your query, please try again..."
+            else:  
+                response=get_gemini_dbtosent(question,sqlquery,str(dbdata),datatosenprompt)
+                return response
+            
+            
         return response
 
 
