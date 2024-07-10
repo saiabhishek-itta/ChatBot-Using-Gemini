@@ -8,7 +8,7 @@ nltk.download('stopwords')
 
 
 # Load the model and vectorizer
-model = joblib.load('logistic_regression_model.pkl')
+model = joblib.load('ensemble_model.pkl')
 vectorizer = joblib.load('tfidf_vectorizer.pkl')
 
 # Define your preprocess_text function if needed
