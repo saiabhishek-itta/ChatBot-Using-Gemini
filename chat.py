@@ -96,7 +96,11 @@ datatosenprompt=[
     offers: offer_id, offer_on, details
     offers table sample data: (1, 'Hotels','10% off upto $250 on bookings made over $2000')
 
-    given a question, sql query and generated table data, you have to convert sql table data into natural language and your respose should only include this answer. if sql query has no data you should answer like an agent working for travel company. 
+    given a question, sql query and generated table data from different tables,
+    you have to convert sql table data into natural language and your 
+    respose should only include this answer. if sql query has no data you 
+    should answer like an agent working for travel company. 
+    never include sql query in your response. 
     """
 ]
 
